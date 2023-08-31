@@ -1,4 +1,4 @@
-import { Arg, Ctx, Mutation, Query, Resolver } from "type-graphql";
+import { Arg, Ctx, ID, Mutation, Query, Resolver } from "type-graphql";
 import { User as PrismaUser } from "@prisma/client";
 import { faker } from "@faker-js/faker";
 
@@ -6,10 +6,10 @@ import { User, UserCreateInput } from "@/resolvers/User/User.type";
 import { prisma } from "@/prisma";
 import { Context } from "@/schema";
 
-@Resolver(User)
+@Resolver(() => User)
 export class UserResolver {
     @Query(() => User, { nullable: true })
-    async user(@Arg("id") id: string): Promise<PrismaUser | null> {
+    async user(@Arg("id", () => ID) id: string): Promise<PrismaUser | null> {
         return prisma.user.findUnique({ where: { id } });
     }
 
@@ -24,7 +24,9 @@ export class UserResolver {
     }
 
     @Mutation(() => User)
-    async userCreate(@Arg("user") userInput: UserCreateInput): Promise<PrismaUser> {
+    async userCreate(
+        @Arg("user", () => UserCreateInput) userInput: UserCreateInput,
+    ): Promise<PrismaUser> {
         return prisma.user.create({
             data: {
                 ...userInput,

@@ -1,13 +1,13 @@
-import { Arg, Query, Resolver } from "type-graphql";
+import { Arg, ID, Query, Resolver } from "type-graphql";
 import { Track as PrismaTrack } from "@prisma/client";
 
 import { Track } from "@/resolvers/Track/Track.type";
 import { prisma } from "@/prisma";
 
-@Resolver(Track)
+@Resolver(() => Track)
 export class TrackResolver {
     @Query(() => Track, { nullable: true })
-    async track(@Arg("id", () => String) id: string): Promise<PrismaTrack | null> {
+    async track(@Arg("id", () => ID) id: string): Promise<PrismaTrack | null> {
         return prisma.track.findUnique({ where: { id } });
     }
 
