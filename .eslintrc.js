@@ -1,5 +1,3 @@
 module.exports = {
-    "extends": [
-        "@pianity/eslint-config"
-    ]
-}
+    extends: ["@pianity/eslint-config"],
+};
