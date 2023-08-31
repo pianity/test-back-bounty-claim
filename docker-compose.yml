@@ -1,0 +1,19 @@
+version: "3.8"
+
+services:
+    database:
+        container_name: database
+        image: postgres:14.7
+        restart: always
+        environment:
+            POSTGRES_USER: pianity
+            POSTGRES_PASSWORD: password
+        volumes:
+            - type: volume
+              source: pianity_postgres
+              target: /var/lib/postgresql/data
+        ports:
+            - 5432:5432
+
+volumes:
+    pianity_postgres:

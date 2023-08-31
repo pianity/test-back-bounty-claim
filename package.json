@@ -1,0 +1,44 @@
+{
+    "name": "test-back-bounty-claim",
+    "version": "1.0.0",
+    "license": "MIT",
+    "private": true,
+    "scripts": {
+        "start": "ts-node --transpile-only src/index.ts",
+        "dev": "nodemon --exec ts-node src/index.ts",
+        "prisma:generate": "prisma generate",
+        "prisma:seed": "ts-node prisma/seed.ts",
+        "prisma:studio": "prisma studio",
+        "prisma:reset": "prisma migrate reset --force",
+        "prisma:create-migration": "prisma migrate dev --create-only",
+        "prisma:apply-migration": "prisma migrate dev",
+        "prisma:deploy": "prisma migrate deploy"
+    },
+    "devDependencies": {
+        "@faker-js/faker": "^8.0.2",
+        "@pianity/eslint-config": "^0.0.3",
+        "@types/express": "^4.17.17",
+        "@types/node": "^20.5.7",
+        "eslint": "^8.16.0",
+        "module-alias": "^2.2.3",
+        "nodemon": "^3.0.1",
+        "prettier": "^3.0.3",
+        "prisma": "^5.2.0",
+        "reflect-metadata": "^0.1.13",
+        "ts-node": "^10.9.1",
+        "typescript": "^4.5"
+    },
+    "dependencies": {
+        "@apollo/server": "^4.9.2",
+        "@prisma/client": "5.2.0",
+        "body-parser": "^1.20.2",
+        "class-validator": "^0.14.0",
+        "express": "^4.18.2",
+        "graphql": "^16.8.0",
+        "graphql-scalars": "^1.22.2",
+        "type-graphql": "2.0.0-beta.3"
+    },
+    "_moduleAliases": {
+        "@": "src/"
+    }
+}

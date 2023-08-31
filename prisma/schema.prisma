@@ -1,0 +1,133 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Models
+
+model Artist {
+    // DEFAULT COLUMNS
+    id                String      @id @map(name: "id")
+    createdAt         DateTime    @default(now()) @map(name: "created_at")
+    updatedAt         DateTime    @updatedAt @map(name: "updated_at")
+
+    // SCALARS
+    slug              String      @unique @map(name: "slug")
+    name              String      @map(name: "name")
+    firstName         String?     @map(name: "first_name")
+    lastName          String?     @map(name: "last_name")
+    isVerified        Boolean     @map(name: "is_verified")
+    avatarUrl         String?     @map(name: "avatar_url")
+
+    // FOREIGN KEYS / RELATIONS
+    user              User?       @relation(name: "User_Artist", fields: [fkUserId], references: [id], onDelete: SetNull)
+    fkUserId          String?     @unique @map(name: "fk_user_id")
+
+    tracks            Track[]     @relation(name: "Track_Artist")
+
+    @@map(name: "artists")
+}
+
+model Bounty {
+    // DEFAULT COLUMNS
+    id              String        @id @map(name: "id")
+    createdAt       DateTime      @default(now()) @map(name: "created_at")
+    updatedAt       DateTime      @updatedAt @map(name: "updated_at")
+
+    // SCALARS
+    claimCode       String        @unique @map(name: "claim_code")
+    isPublic        Boolean       @map(name: "is_public")
+    isActive        Boolean       @map(name: "is_active")
+    isRandom        Boolean       @map(name: "is_random")
+    maxClaim        Int?          @map(name: "max_claim")
+
+    track           Track         @relation(name: "Bounty_Track", fields: [fkTrackId], references: [id], onDelete: Cascade)
+    fkTrackId       String        @unique @map(name: "fk_track_id")
+
+    @@map(name: "bounties")
+}
+
+model Nft {
+    // DEFAULT COLUMNS
+    id                    String    @id @map(name: "id")
+    createdAt             DateTime  @default(now()) @map(name: "created_at")
+    updatedAt             DateTime  @updatedAt @map(name: "updated_at")
+
+    // SCALARS
+    number                Int       @map(name: "number")
+
+    // FOREIGN KEYS / RELATIONS
+    owner                 User?     @relation(name: "Nft_User_Owner", fields: [fkOwnerId], references: [id], onDelete: SetNull)
+    fkOwnerId             String?   @map(name: "fk_owner_id")
+
+    track                 Track     @relation(name: "Track_Nfts", fields: [fkTrackId], references: [id], onDelete: Cascade)
+    fkTrackId             String    @map(name: "fk_track_id")
+
+    @@map(name: "nfts")
+}
+
+model Track {
+    // DEFAULT COLUMNS
+    id                    String    @id @map(name: "id")
+    createdAt             DateTime  @default(now()) @map(name: "created_at")
+    updatedAt             DateTime  @updatedAt @map(name: "updated_at")
+
+    // SCALARS
+    slug                  String    @map(name: "slug")
+    title                 String    @map(name: "title")
+    thumbnailUrl          String?   @map(name: "thumbnail_url")
+
+    // FOREIGN KEYS / RELATIONS
+    artist                Artist    @relation(name: "Track_Artist", fields: [fkArtistId], references: [id], onDelete: Cascade)
+    fkArtistId            String    @map(name: "fk_artist_id")
+
+    bounty                Bounty?   @relation(name: "Bounty_Track")
+    nfts                  Nft[]     @relation(name: "Track_Nfts")
+    
+    @@map(name: "tracks")
+}
+
+model User {
+    // DEFAULT COLUMNS
+    id                String    @id @map(name: "id")
+    createdAt         DateTime  @default(now()) @map(name: "created_at")
+    updatedAt         DateTime  @updatedAt @map(name: "updated_at")
+
+    // SCALARS
+    slug              String    @unique @map(name: "slug")
+    email             String    @unique @map(name: "email")
+    username          String    @unique @map(name: "username")
+    isAdmin           Boolean?  @map(name: "is_admin")
+    isEmailVerified   Boolean   @default(value: false) @map(name: "is_email_verified")
+    avatarUrl         String?   @map(name: "avatar_url")
+
+    // FOREIGN KEYS / RELATIONS
+    artist            Artist?       @relation(name: "User_Artist")
+    nfts              Nft[]         @relation(name: "Nft_User_Owner")
+
+    ipAddresses       IpAddress[]   @relation(name: "User_IpAddress")
+
+    @@map(name: "users")
+}
+
+model IpAddress {
+  // DEFAULT COLUMNS
+  id                String    @id @map(name: "id")
+  createdAt         DateTime  @default(now()) @map(name: "created_at")
+  updatedAt         DateTime  @updatedAt @map(name: "updated_at")
+
+  // SCALARS
+  address           String    @unique @map(name: "address")
+  isBanned          Boolean   @map(name: "is_banned")
+
+  // FOREIGN KEYS / RELATIONS
+  user              User?     @relation(name: "User_IpAddress", fields: [fkUserId], references: [id], onDelete: SetNull)
+  fkUserId          String?   @map(name: "fk_user_id")
+}
