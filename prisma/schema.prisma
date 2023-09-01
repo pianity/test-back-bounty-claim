@@ -130,4 +130,6 @@ model IpAddress {
   // FOREIGN KEYS / RELATIONS
   user              User?     @relation(name: "User_IpAddress", fields: [fkUserId], references: [id], onDelete: SetNull)
   fkUserId          String?   @map(name: "fk_user_id")
+
+  @@map(name: "ip_addresses")
 }

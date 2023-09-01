@@ -70,7 +70,7 @@ CREATE TABLE "users" (
 );
 
 -- CreateTable
-CREATE TABLE "IpAddress" (
+CREATE TABLE "ip_addresses" (
     "id" TEXT NOT NULL,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,
@@ -78,7 +78,7 @@ CREATE TABLE "IpAddress" (
     "is_banned" BOOLEAN NOT NULL,
     "fk_user_id" TEXT,
 
-    CONSTRAINT "IpAddress_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "ip_addresses_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateIndex
@@ -103,7 +103,7 @@ CREATE UNIQUE INDEX "users_email_key" ON "users"("email");
 CREATE UNIQUE INDEX "users_username_key" ON "users"("username");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "IpAddress_address_key" ON "IpAddress"("address");
+CREATE UNIQUE INDEX "ip_addresses_address_key" ON "ip_addresses"("address");
 
 -- AddForeignKey
 ALTER TABLE "artists" ADD CONSTRAINT "artists_fk_user_id_fkey" FOREIGN KEY ("fk_user_id") REFERENCES "users"("id") ON DELETE SET NULL ON UPDATE CASCADE;
@@ -121,4 +121,4 @@ ALTER TABLE "nfts" ADD CONSTRAINT "nfts_fk_track_id_fkey" FOREIGN KEY ("fk_track
 ALTER TABLE "tracks" ADD CONSTRAINT "tracks_fk_artist_id_fkey" FOREIGN KEY ("fk_artist_id") REFERENCES "artists"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "IpAddress" ADD CONSTRAINT "IpAddress_fk_user_id_fkey" FOREIGN KEY ("fk_user_id") REFERENCES "users"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "ip_addresses" ADD CONSTRAINT "ip_addresses_fk_user_id_fkey" FOREIGN KEY ("fk_user_id") REFERENCES "users"("id") ON DELETE SET NULL ON UPDATE CASCADE;
