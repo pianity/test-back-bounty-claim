@@ -34,6 +34,8 @@ export class BountyResolver {
             throw new Error('User not found')
         }
 
+        
+
         // check if the bounty is active & claim code is true - (1) (3)
         const bounty = await prisma.bounty.findUnique({
             where: {isActive:true, claimCode:claimCode}   //check (1) & (2)          
@@ -62,6 +64,21 @@ export class BountyResolver {
             throw new Error("Bounty already claimed by this user");
         }
 
+
+        // check if user already has a track from the bounty
+        const userTracks = await prisma.track.findMany({
+            where: {
+                fkArtistId: user.id,
+                bounty:{
+                    id: bounty.id,
+                }
+            }
+        })
+
+        // check for error
+        if (userTracks.length > 0) {
+            throw new Error("User already has a track associated with this bounty");
+        }
 
         // find nfts that can be claimed : no owner + same track as bounty - check (4)
         const availableNfts = await prisma.nft.findMany({
