@@ -29,7 +29,7 @@ export class NftResolver {
                 throw new Error("nft not found");
             }
             
-            // check new Owner
+            // check new owner
             const nextOwner = await prisma.user.findUnique({
                 where: { id: newOwnerId },
             });

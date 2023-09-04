@@ -25,6 +25,7 @@ export class BountyResolver {
      *
      * @returns The NFT claimed
      */
+    
     @Mutation(() => Nft)
     async bountyClaim(@Ctx() { user }: Context, @Arg("claimCode", () => String) claimCode: string) {
         
