@@ -1,5 +1,6 @@
 import { Arg, Ctx, ID, Mutation, Query, Resolver } from "type-graphql";
 import { User as PrismaUser } from "@prisma/client";
+
 import { faker } from "@faker-js/faker";
 
 import { User, UserCreateInput } from "@/resolvers/User/User.type";
