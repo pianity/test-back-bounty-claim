@@ -66,36 +66,36 @@ export class BountyResolver {
             throw new Error("Bounty already claimed by this user");
         }
 
+        const userIpAddress = "USER IP ADDRESS"; // get user IP address here
 
-        // Vérifiez si une adresse IP a déjà été associée à un utilisateur qui possède ou a possédé un Nft/Track provenant du Bounty
+        // find all users with this IP address
         const usersWithSameIp = await prisma.user.findMany({
             where: {
                 ipAddresses: {
-                        some: {
-                            address: userIpAddress
-                 }
+                    some: {
+                        address: userIpAddress
+                    }
                 }
-            }});
+            }
+        });
 
 
-
-
-        for (const userWithIp of usersWithSameIp) {
-            const nftsOfUserWithIp = await prisma.nft.findMany({
+        // for each user with the same IP address, check if they have a track from the bounty
+        for (const sameIpUser of usersWithSameIp) {
+            const claimedNfts = await prisma.nft.findMany({
                 where: {
                     AND: [
-                     { fkOwnerId: userWithIp.id },
-                     { fkTrackId: bounty.fkTrackId }
-                    ]
-                }
+                        { fkOwnerId: sameIpUser.id },
+                        { fkTrackId: bounty.fkTrackId },
+                    ],
+                },
             });
 
-            if (nftsOfUserWithIp.length > 0) {
-             throw new Error("Bounty already claimed with this IP address");
-        }}
-
+            if (claimedNfts.length > 0) {
+                throw new Error("Bounty already claimed from this IP address");
+            }
+        }
      
-       
 
         // find nfts that can be claimed : no owner + same track as bounty - check (4)
         const availableNfts = await prisma.nft.findMany({
