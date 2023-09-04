@@ -44,12 +44,7 @@ export class BountyResolver {
             throw new Error("Invalid claim code or inactive/public bounty");
         }
 
-
-        // if (bounty.currentClaims >= bounty.maxClaim) {
-        //     throw new Error("Bounty has reached maximum claims");
-        // } --> VOIR GPT POUR IMPLANTER NOUVELLE FONCTIONNALITE
-
-        
+   
 
         // check if the user has already claimed this bounty - check (2)
         const claimedNfts = await prisma.nft.findMany({
