@@ -16,6 +16,10 @@ Authentication has not been implemented in this app. You simply need to pass the
 
 ## Goals
 
+For this exercise, you have two tasks. They don't need to be done in order.
+
+You are allowed to changed everything in the code, including the database schema, as long as you stay reasonable and can properly justify your decisions.
+
 ### Task 1
 
 Your first task is to implement the GraphQL Mutation to claim a Bounty. This mutation is marked with a `TODO` comment.
