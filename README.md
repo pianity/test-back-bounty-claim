@@ -4,8 +4,7 @@
 
 For the sake of this test, most of these concepts have been highly simplified.
 
-As you hopefully know, Pianity is a marketplace for music NFTs. Artists can upload their songs and sell them as NFTs to users.
-There is a special kind of NFT which is free to claim. We refer to these NFTs as "Bounty" NFTs.
+As you hopefully know, Pianity is a marketplace for music NFTs. Artists can upload their songs and sell them as NFTs to users. A fixed amount (chosen by the artist) of NFTs is created with each song. There is a special kind of NFT which is free to claim. We refer to these NFTs as "Bounty" NFTs.
 
 A Bounty is associated to a song and includes all NFTs of this song.
 A Bounty can be claimed for free by a user and they'll receive an NFT (usually random) associated to this Bounty that isn't already owned by a user.
@@ -91,4 +90,4 @@ Feel free to improve the system how you see fit. There are not limitations for t
 ### Ideas
 
 -   Preventing users using multiple accounts to claim the same Bounty more than once.
--   Preventing users to claim more than 1 Bounty per day.
+-   Preventing users to claim more than 1 _Public_ Bounty per day.
